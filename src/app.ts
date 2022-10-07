@@ -78,18 +78,15 @@ app.use(express.json());
 const middleware = ({name}:{name:string}) => 
 
 (req: Request, res: Response, next: NextFunction)=>{
-     //@ts-ignore
-     req.name = name;
+     res.locals.name = name;
      next();
 }
 
-app.use(middleware({name:"using function currying technique"}));
+app.use(middleware({name:"ts - ignore removed"}));
 
 app.get('/api/books/:bookId/:authorId', (req: Request, res: Response, next: NextFunction)=>{
-          //@ts-ignore
-          console.log(req.name);
-           //@ts-ignore
-          res.send(req.name)
+          console.log(res.locals.name);
+          res.send(res.locals.name)
  })
 
 
