@@ -84,11 +84,25 @@ const middleware = ({name}:{name:string}) =>
 
 app.use(middleware({name:"ts - ignore removed"}));
 
-app.get('/api/books/:bookId/:authorId', (req: Request, res: Response, next: NextFunction)=>{
-          console.log(res.locals.name);
-          res.send(res.locals.name)
- })
+app.get('/api/books/:bookId/:authorId', (req: Request<{ bookId: string }, { authorId: string }, { name: string }, {}>, res: Response, next: NextFunction) => {
+     
+     console.log(res.locals.name);
+     res.send(res.locals.name)
+});
 
+async function throwError() {
+      throw new Error("what a error man")
+}
+
+// always wrap errors in try catch
+app.get('/error', async (req, res) => {
+     try {
+          await throwError();
+          res.sendStatus(200);
+     } catch (error) {
+          res.status(400).send("some bad error");
+     }
+})
 
 app.listen(3000, () => {
      console.log("server running at port 3000");
