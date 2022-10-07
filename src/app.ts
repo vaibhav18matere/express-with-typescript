@@ -75,13 +75,15 @@ app.use(express.json());
 
 // two functions
 
-function middleware(req: Request, res: Response, next: NextFunction) {
+const middleware = ({name}:{name:string}) => 
+
+(req: Request, res: Response, next: NextFunction)=>{
      //@ts-ignore
-     req.name = "VaibhavMatere";
+     req.name = name;
      next();
 }
 
-app.use(middleware);
+app.use(middleware({name:"using function currying technique"}));
 
 app.get('/api/books/:bookId/:authorId', (req: Request, res: Response, next: NextFunction)=>{
           //@ts-ignore
